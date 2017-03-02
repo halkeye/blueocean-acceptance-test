@@ -67,8 +67,12 @@ module.exports = (function (settings) {
         settings.test_settings.default.username = process.env.SAUCE_USERNAME;
         settings.test_settings.default.access_key = process.env.SAUCE_ACCESS_KEY;
         if (process.env.TUNNEL_IDENTIFIER) {
-            settings.test_settings.default.desiredCapabilities['tunnel-identifier'] = process.env.TUNNEL_IDENTIFIER;
+            settings.test_settings.default.desiredCapabilities['tunnelIdentifier'] = process.env.TUNNEL_IDENTIFIER;
         }
+        if (process.env.JENKINS_BUILD_NUMBER) {
+            settings.test_settings.default.desiredCapabilities['build'] = process.env.TUNNEL_IDENTIFIER;
+        }
+        settings.test_settings.default.desiredCapabilities.public = "public";
     }
 
     return settings;
