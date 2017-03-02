@@ -149,8 +149,7 @@ node ('docker') {
                 currentBuild.result = "FAILURE"
             } finally {
                 sendhipchat(repoUrl, branchName, buildNumber, null)
-                step([$class: 'JUnitResultArchiver', testResults: 'target/surefire-reports/**/*.xml'])
-                step([$class: 'SauceOnDemandTestPublisher'])
+                junit testDataPublishers: [[$class: 'SauceOnDemandReportPublisher', jobVisibility: 'public']], testResults: 'target/surefire-reports/**/*.xml'
             }
         }
         } // configFileProvider
