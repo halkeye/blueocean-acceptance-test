@@ -44,7 +44,7 @@ node ('docker') {
     checkout scm
 
     // Run selenium in a docker container of its own on the host.
-    sh "./start-selenium.sh"
+    //sh "./start-selenium.sh"
 
     // Encode the branch name. Need to do it out here because of JENKINS-34973.
     def urlEncodedBranchName = URLEncoder.encode(branchName, "UTF-8").replace("+", "%20");
@@ -140,17 +140,22 @@ node ('docker') {
                 // already running in a docker container of it's on in the host. See call to
                 // ./start-selenium.sh (above) and ./stop-selenium.sh (below).
                 stage 'run'
-                sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium"
+                sauce('saucelabs') {
+                    sauceconnect(useGeneratedTunnelIdentifier: true, verboseLogging: true) {
+                        sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium"
+                    }
+                }
             } catch (err) {
                 currentBuild.result = "FAILURE"
             } finally {
                 sendhipchat(repoUrl, branchName, buildNumber, null)
                 step([$class: 'JUnitResultArchiver', testResults: 'target/surefire-reports/**/*.xml'])
+                step([$class: 'SauceOnDemandTestPublisher'])
             }
         }
         } // configFileProvider
     } finally {
-        sh "./stop-selenium.sh"
+        //sh "./stop-selenium.sh"
     }
 }
 
@@ -185,7 +190,10 @@ def sendhipchat(repoUrl, branchName, buildNumber, err) {
         color = "RED"
     }
     if(color != null) {
-        hipchatSend message: message, color: color
+      try {
+          hipchatSend message: message, color: color
+      } catch (e) {
+      }
     }
 }
 

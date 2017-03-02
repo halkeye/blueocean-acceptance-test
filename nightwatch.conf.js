@@ -61,5 +61,12 @@ module.exports = (function (settings) {
         settings.selenium.start_process = false;
     }
     
+    if (process.env.SAUCE_USERNAME) {
+        settings.test_settings.default.selenium_port = 80;
+        settings.test_settings.default.selenium_host = 'ondemand.saucelabs.com';
+        settings.test_settings.default.username = process.env.SAUCE_USERNAME;
+        settings.test_settings.default.access_key = process.env.SAUCE_ACCESS_KEY;
+    }
+
     return settings;
 })(require('./src/main/nightwatch.json'));
