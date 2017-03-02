@@ -17,7 +17,6 @@ module.exports = {
         afterEach: function (browser, done) {
             try {
                 browser.end();
-                browser.customSauceEnd(done);
             } finally {
                 sse.disconnect(function() {
                     console.log('>> Test suite "done". Okay to start next test.');

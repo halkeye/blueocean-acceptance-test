@@ -40,7 +40,6 @@
     "nodegit": "^0.14.1",
     "phantomjs-prebuilt": "2.1.12",
     "request": "2.74.0",
-    "saucelabs": "^1.4.0",
     "util": "0.10.3",
     "xmlhttprequest": "1.8.0"
   }
