@@ -66,7 +66,7 @@ node ('docker') {
         // volume binding to the "inside" container run settings (change username from "tfennelly"):
         //       -v /home/tfennelly/.m2:/home/bouser/.m2
         //
-        athImg.inside(/*"--net=container:blueo-selenium"*/) {
+        athImg.inside("-v ${env.HOME}/.m2:/home/bouser/.m2" /*"--net=container:blueo-selenium"*/) {
             try {
                 sh "echo 'Starting build stage'"
                 // Build blueocean and the ATH
