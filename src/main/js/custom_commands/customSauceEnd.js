@@ -1,6 +1,5 @@
 exports.command = function(cb) {
     var sessionid = this.capabilities['webdriver.remote.sessionid'];
-    console.log(this);
     var jobName = this.currentTest.name;
     if (jobName) {
         console.log("SauceOnDemandSessionID=" + sessionid + " job-name=" + jobName);
