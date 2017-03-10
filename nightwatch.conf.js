@@ -2,7 +2,7 @@ module.exports = (function (settings) {
     var fs = require('fs');
     var url = require('url');
     var launchUrl;
-    
+
     var netaddr = require('network-address');
 
     if (process.env.LAUNCH_URL) {
@@ -25,12 +25,12 @@ module.exports = (function (settings) {
         var jenkins_url_file = 'target/.jenkins_url';
 
         if (!fs.existsSync(jenkins_url_file)) {
-            throw 'Jenkins not running. Failed to find file: ' + jenkins_url_file;
+            throw new Error('Jenkins not running. Failed to find file: ' + jenkins_url_file);
         }
 
         launchUrl = fs.readFileSync(jenkins_url_file, 'utf8');
     }
-    
+
     // Replace localhost addresses with the actual IP, allowing it
     // to work inside a docker container running on the host.
     launchUrl = launchUrl.replace('localhost', netaddr());
@@ -60,7 +60,7 @@ module.exports = (function (settings) {
     if (fs.existsSync('target/.selenium_server_provided')) {
         settings.selenium.start_process = false;
     }
-    
+
     if (process.env.SAUCE_USERNAME) {
         settings.test_settings.default.selenium_port = 80;
         settings.test_settings.default.selenium_host = 'ondemand.saucelabs.com';
