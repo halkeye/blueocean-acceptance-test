@@ -4,15 +4,30 @@
 // See NightwatchTest and it's impls.
 
 const gulp  = require('gulp');
-const shell = require('gulp-shell');
 const jsdoc = require('gulp-jsdoc3');
 const config = require('./jsdocConfig.json');
+const parseArgs = require('minimist')
+const exec = require('child_process').exec;
 
-if (process.argv.length === 4 && process.argv[2] === '--test') {
-    gulp.task('default', shell.task('nightwatch --retries 5 --suiteRetries 2 ' + process.argv[3].toString()));
-} else {
-    gulp.task('default', shell.task('nightwatch --retries 5 --suiteRetries 2'));
-}
+gulp.task('default', function(cb) {
+    const args = parseArgs(process.argv.slice(2));
+    const cmd = [
+        'nightwatch',
+        '--retries', '5',
+        '--suiteRetries', '2'
+    ];
+    if (args.env) {
+        cmd.push('--env', args.env)
+    }
+    if (args.test) {
+        cmd.push(args.test);
+    }
+    exec(cmd.join(' '), function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err)
+    });
+});
 
 gulp.task('doc', function (cb) {
     console.log('***************Generate documentation+++++++++++++++++++++++++++++++++++');
