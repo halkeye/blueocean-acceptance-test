@@ -56,6 +56,15 @@ public class NightwatchRunner {
     public static void run(String command) throws TaskRunnerException {
         FrontendPluginFactory frontendPluginFactory = new FrontendPluginFactory(workDir, workDir);
         Map<String, String> env = new HashMap<>();
+        if (System.getProperty("nightwatch.env") != null) {
+            StringBuilder newCommandSB = new StringBuilder();
+            newCommandSB.append(command);
+            if (newCommandSB.length() != 0) {
+                newCommandSB.append(" ");
+            }
+            newCommandSB.append(String.format(" --env %s", System.getProperty("nightwatch.env")));
+            command = newCommandSB.toString();
+        }
 
         System.out.println("------------- NightwatchRunner <<Start>> -------------");
         try {

@@ -33,6 +33,7 @@ PLUGINS=""
 AGGREGATOR_DIR=""
 DEV_JENKINS=false
 PROFILES="-P runTests"
+NIGHTWATCH_ENV=""
 JENKINS_JAVA_OPTS="-Djava.util.logging.config.file=./logging.properties"
 TEST_TO_RUN="-Dtest=AllTest"
 
@@ -56,6 +57,9 @@ case $i in
     ;;
     -h=*|--host=*)
     ATH_SERVER_HOST="${i#*=}"
+    ;;
+    --env=*)
+    NIGHTWATCH_ENV="-Dnightwatch.env=${i#*=} "
     ;;
     -p=*|--port=*)
     ATH_SERVER_PORT="${i#*=}"
@@ -182,7 +186,7 @@ mvn hpi:assemble-dependencies
 popd
 cp -f $AGGREGATOR_DIR/target/plugins/*.hpi ./runtime-deps/target/plugins
 
-EXECUTION="env JENKINS_JAVA_OPTS=\"${JENKINS_JAVA_OPTS}\" ${ATH_SERVER_HOST} ${ATH_SERVER_PORT} BROWSER=phantomjs LOCAL_SNAPSHOTS=${LOCAL_SNAPSHOTS} ${PLUGINS} PLUGINS_DIR=./runtime-deps/target/plugins PATH=./node:./node/npm/bin:./node_modules/.bin:${PATH} JENKINS_WAR=./bin/jenkins-${JENKINS_VERSION}.war mvn ${MAVEN_SETTINGS} test ${PROFILES} ${TEST_TO_RUN}"
+EXECUTION="env JENKINS_JAVA_OPTS=\"${JENKINS_JAVA_OPTS}\" ${ATH_SERVER_HOST} ${ATH_SERVER_PORT} BROWSER=phantomjs LOCAL_SNAPSHOTS=${LOCAL_SNAPSHOTS} ${PLUGINS} PLUGINS_DIR=./runtime-deps/target/plugins PATH=./node:./node/npm/bin:./node_modules/.bin:${PATH} JENKINS_WAR=./bin/jenkins-${JENKINS_VERSION}.war mvn ${MAVEN_SETTINGS} test ${PROFILES} ${NIGHTWATCH_ENV}${TEST_TO_RUN}"
 
 echo ""
 echo "> ${EXECUTION}"
