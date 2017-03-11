@@ -10,6 +10,7 @@ const config = require('./jsdocConfig.json');
 const parseArgs = require('minimist')
 const exec = require('child_process').exec;
 
+console.log('argv', process.argv);
 gulp.task('default', function(done) {
     const args = parseArgs(process.argv.slice(2));
     const cmd = [
