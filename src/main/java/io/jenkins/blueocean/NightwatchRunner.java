@@ -75,6 +75,7 @@ public class NightwatchRunner {
             System.out.println("**** NightwatchRunner - No failures.");
         } catch (TaskRunnerException e) {
             System.out.println("**** NightwatchRunner - failure.");
+            e.printStackTrace();
             throw e;
         } finally {
             System.out.println("-------------- NightwatchRunner <<End>> --------------");
