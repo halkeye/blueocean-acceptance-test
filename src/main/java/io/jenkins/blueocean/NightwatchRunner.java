@@ -62,7 +62,7 @@ public class NightwatchRunner {
             if (newCommandSB.length() != 0) {
                 newCommandSB.append(" ");
             }
-            newCommandSB.append(String.format(" --env %s", System.getProperty("nightwatch.env")));
+            newCommandSB.append(String.format("--env %s", System.getProperty("nightwatch.env")));
             command = newCommandSB.toString();
         }
 
@@ -75,7 +75,6 @@ public class NightwatchRunner {
             System.out.println("**** NightwatchRunner - No failures.");
         } catch (TaskRunnerException e) {
             System.out.println("**** NightwatchRunner - failure.");
-            e.printStackTrace();
             throw e;
         } finally {
             System.out.println("-------------- NightwatchRunner <<End>> --------------");
