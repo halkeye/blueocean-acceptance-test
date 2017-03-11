@@ -4,12 +4,13 @@
 // See NightwatchTest and it's impls.
 
 const gulp  = require('gulp');
+const shell = require('gulp-shell');
 const jsdoc = require('gulp-jsdoc3');
 const config = require('./jsdocConfig.json');
 const parseArgs = require('minimist')
 const exec = require('child_process').exec;
 
-gulp.task('default', function(cb) {
+gulp.task('default', function(done) {
     const args = parseArgs(process.argv.slice(2));
     const cmd = [
         'nightwatch',
@@ -22,11 +23,7 @@ gulp.task('default', function(cb) {
     if (args.test) {
         cmd.push(args.test);
     }
-    exec(cmd.join(' '), function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-        cb(err)
-    });
+    shell.task(cmd.join(' '))(done);
 });
 
 gulp.task('doc', function (cb) {
