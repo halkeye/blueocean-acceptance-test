@@ -146,18 +146,18 @@ node ('docker') {
                 sauce('saucelabs') {
                     sauceconnect(useGeneratedTunnelIdentifier: true, verboseLogging: true) {
                         parallel(
-                                "firefox": {
+                                /*"firefox": {
                                     sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium --env=firefox"
-                                },
+                                },*/
                                 "chrome": {
                                     sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium --env=chrome"
-                                },
+                                }/*,
                                 "safari": {
                                     sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium --env=safari"
                                 },
                                 "edge": {
                                     sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium --env=edge"
-                                }
+                                }*/
                         )
                     }
                 }
