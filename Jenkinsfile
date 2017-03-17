@@ -146,7 +146,10 @@ node ('docker') {
                 stage 'run'
                 sauce('saucelabs') {
                     sauceconnect(useGeneratedTunnelIdentifier: true, verboseLogging: true) {
-                        sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium --env=firefox,chrome,safari,edge"
+                        sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium --env=edge"
+                        sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium --env=safari"
+                        sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium --env=chrome"
+                        sh "./run.sh -a=./blueocean-plugin/blueocean/ --no-selenium --env=firefox"
                     }
                 }
             } catch (err) {
